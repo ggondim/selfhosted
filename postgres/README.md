@@ -8,5 +8,5 @@ password=$(openssl rand -base64 12 | tr -dc 'A-Za-z0-9') && sed -i "s|PSW_PGADMI
 
 mkdir -p ~/postgres/data
 mkdir ~/postgres/pgadmin && sudo chown 5050:5050 ~/postgres/pgadmin
-docker compose up -d
+cd ~/postgres && docker compose up -d
 ```

@@ -26,7 +26,7 @@ services:
     ports:
       - "${PGADMIN_PORT:-16543}:80"
     networks:
-      - postgres
+      - local-internal
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-steve@nether.mine}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-PSW_PGADMIN}
