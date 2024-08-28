@@ -1,0 +1,56 @@
+x-shared: &shared
+  restart: unless-stopped
+  image: mongo:latest
+  networks:
+    - local-internal
+  volumes:
+    - ./keyfile:/keyfile
+  environment:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: PSW_MONGO
+    MONGO_INITDB_DATABASE: admin
+  entrypoint:
+    - bash
+    - -c
+    - |
+        cp /keyfile /mongo_keyfile
+        chmod 400 /mongo_keyfile
+        chown 999:999 /mongo_keyfile
+        exec docker-entrypoint.sh $$@
+  command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--keyFile", "/mongo_keyfile"]
+  healthcheck:
+    test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    interval: 5s
+    timeout: 5s
+    retries: 10
+
+services:
+  mongo1:
+    <<: *shared
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo1_data:/data/db
+
+  mongo2:
+    <<: *shared
+    ports:
+      - 27018:27017
+    volumes:
+      - mongo2_data:/data/db
+
+  mongo3:
+    <<: *shared
+    ports:
+      - 27019:27017
+    volumes:
+      - mongo3_data:/data/db
+
+networks:
+  local-internal:
+    external: true
+
+volumes:
+  mongo1_data:
+  mongo2_data:
+  mongo3_data:
