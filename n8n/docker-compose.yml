@@ -1,0 +1,42 @@
+x-shared: &shared
+  restart: unless-stopped
+  image: docker.n8n.io/n8nio/n8n
+  environment:
+    - DB_TYPE=postgresdb
+    - DB_POSTGRESDB_HOST=postgres
+    - DB_POSTGRESDB_PORT=5432
+    - DB_POSTGRESDB_DATABASE=n8n
+    - DB_POSTGRESDB_USER=n8n
+    - DB_POSTGRESDB_PASSWORD=PSW_POSTGRES
+    - EXECUTIONS_MODE=queue
+    - QUEUE_BULL_REDIS_HOST=redis
+    - QUEUE_BULL_REDIS_PASSWORD=PSW_REDIS
+    - QUEUE_BULL_REDIS_DB=11
+    - QUEUE_HEALTH_CHECK_ACTIVE=true
+    - N8N_ENCRYPTION_KEY=ENC_KEY
+    - N8N_SECURE_COOKIE=false
+    #- N8N_EDITOR_BASE_URL=https://domain.io
+    #- WEBHOOK_URL=https://domain.io
+    - NODE_FUNCTION_ALLOW_BUILTIN=*
+    - NODE_FUNCTION_ALLOW_EXTERNAL=mongodb
+  volumes:
+    - ./.n8n:/home/node/.n8n
+  networks:
+    - local-internal
+
+services:
+  n8n:
+    <<: *shared
+    ports:
+      - 5678:5678
+
+  n8n-worker:
+    <<: *shared
+    command: worker
+    depends_on:
+      - n8n
+
+
+networks:
+  local-internal:
+    external: true

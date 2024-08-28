@@ -20,14 +20,20 @@ unminimize
 sudo apt update && sudo apt upgrade -y && sudo apt install -y build-essential curl git vim
 ```
 
+## clone this repo
+
+```bash
+git clone https://github.com/ggondim/selfhosted.git
+```
+
 ### ssh & neofetch
 
 
 ```bash
-sudo mv ~/selfhosted/ubuntu/sshd_config /etc/ssh/sshd_config
+sudo cp ~/selfhosted/ubuntu/sshd_config /etc/ssh/sshd_config
 sudo sed -i 's/USERNAME/'$USER'/g' /etc/ssh/sshd_config
 sudo chmod 644 /etc/ssh/sshd_config
-sudo systemctl restart sshd
+sudo systemctl restart ssh
 ```
 
 ```bash
@@ -56,7 +62,10 @@ echo \
 sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && sudo docker run hello-world
 
 # Add user to docker group
-sudo groupadd docker && sudo usermod -aG docker $USER && docker run hello-world
+sudo groupadd docker
+sudo usermod -aG docker $USER
+exit
+docker run hello-world
 
 # lazydocker
 curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
@@ -64,4 +73,10 @@ curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/i
 echo "alias lzd='lazydocker'" >> ~/.profile && source ~/.profile
 
 lzd
+```
+
+# a single network to rule them all
+
+```bash
+docker network create local-internal
 ```

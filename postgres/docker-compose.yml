@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - local-internal
+    environment:
+      POSTGRES_PASSWORD: "PSW_POSTGRES"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    volumes:
+       - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-16543}:80"
+    networks:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-steve@nether.mine}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-PSW_PGADMIN}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+
+volumes:
+  postgres_data:
+
+networks:
+  local-internal:
+    external: true

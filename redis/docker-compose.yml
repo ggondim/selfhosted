@@ -1,0 +1,22 @@
+services:
+  redis:
+    image: redis:6-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data:/data
+    environment:
+      - REDIS_PASSWORD=PSSW
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+    command: redis-server --save 20 1 --loglevel warning --requirepass PSSW
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  local-internal:
+    external: true
