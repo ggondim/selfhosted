@@ -13,17 +13,11 @@ sudo netplan apply
 ## basic setup commands
 
 ```bash
-unminimize
+sudo unminimize -y
 ```
 
 ```
 sudo apt update && sudo apt upgrade -y && sudo apt install -y build-essential curl git vim
-```
-
-## clone this repo
-
-```bash
-git clone https://github.com/ggondim/selfhosted.git
 ```
 
 ### ssh & neofetch
