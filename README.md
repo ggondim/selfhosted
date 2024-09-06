@@ -4,7 +4,7 @@ A collection of self-hosted templates for myself, because I don't wanna struggle
 First of all, clone me:
 
 ```
-sudo apt install git && git clone git@github.com:ggondim/selfhosted.git
+sudo apt install git -y && git clone https://github.com/ggondim/selfhosted.git
 ```
 
 ## Start
