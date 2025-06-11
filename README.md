@@ -7,11 +7,6 @@ First of all, clone me:
 sudo apt install git -y && git clone https://github.com/ggondim/selfhosted.git
 ```
 
-## Start
-
-- [Ubuntu fresh start + Docker](/ubuntu/README.md)
-- [Setup personal SSH keys and hosts](/ssh/README.md)
-
 ## Reverse proxy
 
 - [traefik] - TODO
@@ -28,3 +23,7 @@ sudo apt install git -y && git clone https://github.com/ggondim/selfhosted.git
 - [appsmith] `redis` `mongodb`
 - [zitadel] - TODO `traefik`
 - [windmill] - TODO
+
+## See also
+
+https://github.com/ggondim/setup
